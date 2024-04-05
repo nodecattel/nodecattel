@@ -1,28 +1,22 @@
 #!/bin/bash
 
 # Variables
-CONFIG_FILE="$HOME/.ore_config"
+ORE_DIR="$HOME/.ore"
+CONFIG_FILE="$ORE_DIR/ore.conf"
 DEFAULT_RPC="https://api.mainnet-beta.solana.com"
 DEFAULT_PRIORITY_FEE="5000"
 DEFAULT_THREADS="4"
-DEFAULT_KEYPAIR="$HOME/.config/solana/id.json"
+KEYPAIR_PATH="$HOME/.config/solana/id.json"
 
-# Load existing config or use default values
-if [[ -f "$CONFIG_FILE" ]]; then
-    source "$CONFIG_FILE"
-else
-    RPC="$DEFAULT_RPC"
-    PRIORITY_FEE="$DEFAULT_PRIORITY_FEE"
-    THREADS="$DEFAULT_THREADS"
-    KEYPAIR="$DEFAULT_KEYPAIR"
-fi
+# Ensure ore directory exists
+mkdir -p "$ORE_DIR"
 
 # Function to display help message
 show_help() {
-    echo "Usage: $0 [options] [preset]"
+    echo -e "\033[0;32mUsage: $0 [options] [preset]\033[0m"
     echo "Options:"
     echo "  -r <RPC URL>        Specify the RPC URL."
-    echo "  -k <keypair path>   Specify the keypair path."
+    echo "  -k <keypair path>   Specify the keypair path. (This option is ignored since we're using the default path)"
     echo "  -f <priority fee>   Specify the priority fee."
     echo "  -t <threads>        Specify the number of threads."
     echo "Presets:"
@@ -30,71 +24,58 @@ show_help() {
     echo "  --help              Display this help message and exit."
 }
 
-# Function to parse command-line options
-while getopts ":r:k:f:t:" opt; do
-    case ${opt} in
-        r ) RPC="$OPTARG"
-            ;;
-        k ) KEYPAIR="$OPTARG"
-            ;;
-        f ) PRIORITY_FEE="$OPTARG"
-            ;;
-        t ) THREADS="$OPTARG"
-            ;;
-        \? ) show_help
-             exit 1
-            ;;
-    esac
-done
-shift $((OPTIND -1))
-
-# Check for help or fast preset
-if [[ "$1" == "--help" ]]; then
-    show_help
-    exit 0
-elif [[ "$1" == "fast" ]]; then
-    PRIORITY_FEE=$((PRIORITY_FEE + PRIORITY_FEE / 4))
-    THREADS=$((THREADS + 2))
+# Generate Solana keypair if it does not exist
+if [ ! -f "$KEYPAIR_PATH" ]; then
+    echo -e "\033[0;32mGenerating Solana keypair...\033[0m"
+    solana-keygen new --no-passphrase --outfile "$KEYPAIR_PATH"
 fi
 
-# First-time setup
+# Extract the public key (wallet address) from the keypair
+WALLET_ADDRESS=$(solana-keygen pubkey "$KEYPAIR_PATH")
+echo -e "\033[0;32mYour wallet address is: $WALLET_ADDRESS\033[0m"
+
+# Function to setup defaults and save to config file
 setup_defaults() {
-    echo "It looks like this is the first time you are running this script."
-    echo "Let's set up some default values."
+    echo -e "\033[0;32mSetting up default values for mining.\033[0m"
 
-    read -p "Enter default RPC URL [$RPC]: " input_rpc
-    RPC="${input_rpc:-$RPC}"
+    # Default values setup
+    read -e -p "Enter default RPC URL [$DEFAULT_RPC]: " -i "$DEFAULT_RPC" RPC
+    read -e -p "Enter default priority fee [$DEFAULT_PRIORITY_FEE]: " -i "$DEFAULT_PRIORITY_FEE" PRIORITY_FEE
+    read -e -p "Enter default number of threads [$DEFAULT_THREADS]: " -i "$DEFAULT_THREADS" THREADS
 
-    read -p "Enter default keypair path [$KEYPAIR]: " input_keypair
-    KEYPAIR="${input_keypair:-$KEYPAIR}"
-
-    read -p "Enter default priority fee [$PRIORITY_FEE]: " input_fee
-    PRIORITY_FEE="${input_fee:-$PRIORITY_FEE}"
-
-    read -p "Enter default number of threads [$THREADS]: " input_threads
-    THREADS="${input_threads:-$THREADS}"
-
-    # Save the configuration
+    # Save to config file
     echo "RPC=$RPC" > "$CONFIG_FILE"
-    echo "KEYPAIR=$KEYPAIR" >> "$CONFIG_FILE"
     echo "PRIORITY_FEE=$PRIORITY_FEE" >> "$CONFIG_FILE"
     echo "THREADS=$THREADS" >> "$CONFIG_FILE"
+    echo "WALLET_ADDRESS=$WALLET_ADDRESS" >> "$CONFIG_FILE"
 }
 
-# Main execution block
-if [[ ! -f "$CONFIG_FILE" ]]; then
+# Load config if exists or setup defaults
+if [ ! -f "$CONFIG_FILE" ]; then
     setup_defaults
 else
-    while true; do
-        echo "Starting mining operation with the following settings:"
-        echo "RPC URL: $RPC"
-        echo "Keypair Path: $KEYPAIR"
-        echo "Priority Fee: $PRIORITY_FEE"
-        echo "Threads: $THREADS"
-        # Placeholder for the ore command. Replace with the actual command and its options.
-        echo "ore-cli command would run here."
-
-        echo "Ore process has exited. Restarting in 3 seconds..."
-        sleep 3
-    done
+    source "$CONFIG_FILE"
 fi
+
+# Confirm to start mining
+read -p "Press any key to start mining with the above wallet address or CTRL+C to cancel..."
+
+# Placeholder for mining command. Adjust as necessary with actual command and options.
+# Example mining command: echo "Starting mining with wallet $WALLET_ADDRESS"
+
+# Display configuration
+echo -e "\033[0;32mStarting mining operation with the following configuration:\033[0m"
+echo "RPC URL: $RPC"
+echo "Priority Fee: $PRIORITY_FEE"
+echo "Threads: $THREADS"
+echo "Wallet Address: $WALLET_ADDRESS"
+
+# Start mining in a loop. Replace this echo with your actual mining command.
+while :; do
+    echo "Mining operation would start here."
+    # Simulating a mining operation with sleep
+    sleep 5
+
+    echo -e "\033[0;32mMining process exited, restarting in 3 seconds...\033[0m"
+    sleep 3
+done
