@@ -5,6 +5,7 @@ Commands:
   light              Change system to light mode
   dark               Change system to dark mode
   party              Play NodeCattel's playlist
+  stake              Stake token
   faucet             Show list of claimable tokens
   nikohime           Render Nikohime's avatar
   help               Print this message or the help of the given subcommand(s)
@@ -22,7 +23,7 @@ Arguments:
 Options:
   -h, --help  Print help
 
-  ** available chains**
+  ** available chains **
   eigenlayer
   babylon
 
@@ -64,6 +65,26 @@ Usage: kitten nikohime [OPTION]
 
 -----------------------------------------------------  
 
+Usage: kitten stake [OPTION] [ARGUMENT]
+
+Arguments:
+  [CHAIN-NAME]   The name of the chain to claim faucet
+
+OPTION:
+  -init          Open a new window to NodeCattel validator page
+  -list          List all available chains
+
+  -h, --help     Print help  
+
+Example:
+  kitten stake eigenlayer init
+
+ ** available chains **
+  eigenlayer
+  babylon
+
+-----------------------------------------------------  
+
 Usage: kitten faucet [OPTION] [ARGUMENT] <ADDRESS>
 
 Arguments:
@@ -71,10 +92,9 @@ Arguments:
 
 OPTION:
   -gib           Claim faucet
-  -list          List all available faucets available
+  -list          List all available faucets
 
   -h, --help     Print help  
 
 Example:
   kitten faucet gib holesky 0x4cdd066a7a183f0e3a065c2a9f45fab48d870bf4
-
