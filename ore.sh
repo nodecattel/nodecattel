@@ -1,4 +1,5 @@
 #!/bin/bash
+#made by NodeCattel
 
 CONFIG_FILE="$HOME/.ore_config"
 
