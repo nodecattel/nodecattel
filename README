@@ -7,6 +7,7 @@ Commands:
   party              Play NodeCattel's playlist
   stake              Stake token
   faucet             Show list of claimable tokens
+  social             List all available socials of NodeCattel
   nikohime           Render Nikohime's avatar
   help               Print this message or the help of the given subcommand(s)
 
@@ -55,6 +56,19 @@ OPTION:
   -next          Play the next song
   -stop          Stop the playlisy of NodeCattel
   -gettune       Download the current song of NodeCattel
+  -h, --help     Print help  
+
+-----------------------------------------------------
+
+Usage: kitten social [OPTION] [CHAIN-NAME]
+
+OPTION:
+  -list          List NodeCattle's X, Medium, GitHub
+  -go <social>   Open a new window for selected social
+
+Arguments:
+  [CHAIN-NAME]   The name of the chain to claim faucet
+
   -h, --help     Print help  
 
 -----------------------------------------------------
