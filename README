@@ -99,13 +99,13 @@ Example:
 
 -----------------------------------------------------  
 
-Usage: kitten faucet [OPTION] [ARGUMENT] <ADDRESS>
+Usage: kitten faucet [OPTION] [ARGUMENT]
 
 Arguments:
   [CHAIN-NAME]   The name of the chain to claim faucet
 
 OPTION:
-  -gib           Claim faucet
+  -gib <ADDRESS> Claim faucet to an address
   -list          List all available faucets
 
   -h, --help     Print help  
