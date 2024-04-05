@@ -1,4 +1,14 @@
 #!/bin/bash
+# Version Information, and Credits
+echo -e "\033[0;32m" # Start green color
+cat << "EOF"
+█▀█ █▀█ █▀▀ █▀▄▀█ █ █▄░█ █▀▀ █▀█
+█▄█ █▀▄ ██▄ █░▀░█ █ █░▀█ ██▄ █▀▄
+EOF
+echo -e "Version 0.1.0 - Ore Mining Script"
+echo -e "Made by NodeCattel\033[0m" # End green color
+
+# Rest of your script below...
 
 # Variables
 ORE_DIR="$HOME/.ore"
