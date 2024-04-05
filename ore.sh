@@ -8,9 +8,7 @@ EOF
 echo -e "Version 0.1.0 - Ore Mining Script"
 echo -e "Made by NodeCattel\033[0m" # End green color
 
-# Rest of your script below...
-
-# Variables
+# Initial variable settings
 ORE_DIR="$HOME/.ore"
 CONFIG_FILE="$ORE_DIR/ore.conf"
 DEFAULT_RPC="https://api.mainnet-beta.solana.com"
@@ -18,7 +16,7 @@ DEFAULT_PRIORITY_FEE="5000"
 DEFAULT_THREADS="4"
 KEYPAIR_PATH="$HOME/.config/solana/id.json"
 
-# Ensure ore directory exists
+# Create Ore directory
 mkdir -p "$ORE_DIR"
 
 # Function to display help message
@@ -67,20 +65,17 @@ else
     source "$CONFIG_FILE"
 fi
 
-# Confirm to start mining
+# Prompt screen to start mining
 read -p "Press any key to start mining with the above wallet address or CTRL+C to cancel..."
 
-# Placeholder for mining command. Adjust as necessary with actual command and options.
-# Example mining command: echo "Starting mining with wallet $WALLET_ADDRESS"
-
-# Display configuration
+# Display mining configuration
 echo -e "\033[0;32mStarting mining operation with the following configuration:\033[0m"
 echo "RPC URL: $RPC"
 echo "Priority Fee: $PRIORITY_FEE"
 echo "Threads: $THREADS"
 echo "Wallet Address: $WALLET_ADDRESS"
 
-# Start mining in a loop. Replace this echo with your actual mining command.
+# Start mining in a loop.
 while :; do
     echo "Mining operation would start here."
     # Simulating a mining operation with sleep
