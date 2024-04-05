@@ -63,3 +63,18 @@ Usage: kitten nikohime [OPTION]
   -h, --help     Print help  
 
 -----------------------------------------------------  
+
+Usage: kitten faucet [OPTION] [ARGUMENT] <ADDRESS>
+
+Arguments:
+  [CHAIN-NAME]   The name of the chain to claim faucet
+
+OPTION:
+  -gib           Claim faucet
+  -list          List all available faucets available
+
+  -h, --help     Print help  
+
+Example:
+  kitten faucet gib holesky 0x4cdd066a7a183f0e3a065c2a9f45fab48d870bf4
+
